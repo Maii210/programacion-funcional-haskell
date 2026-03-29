@@ -52,3 +52,73 @@ nota p1 p2 ef si = if promedio (fromIntegral p1) (fromIntegral p2) >= 51 || ef >
 
 fechaMayor :: (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int)
 fechaMayor (d1, m1, a1) (d2, m2, a2) = if a1 > a2 then (d1, m1, a1) else if a2 > a1 then (d2, m2, a2) else if m1 > m2 then (d1, m1, a1) else if m2 > m1 then (d2, m2, a2) else if d1 > d2 then (d1, m1, a1) else (d2, m2, a2)
+
+--Ejercicio 3 - Distincion de casos
+mayorDe4 :: Int -> Int -> Int -> Int -> Int
+mayorDe4 a b c d | mayorde2 a b > mayorde2 c d = mayorde2 a b
+                 | otherwise = mayorde2 c d
+            
+nota2 :: Int -> String
+nota2 n | n >= 51 && n <= 100 = "Aprobado"
+        | n < 51 = "Reprobado"
+        | otherwise = "Nota inválida"
+
+nota3 :: Int -> String
+nota3 n | n >= 90 && n <= 100 = "Excelente"
+        | n >= 70 && n <= 89 = "Bien"
+        | n >= 51 && n <= 69 = "Regular"
+        | n >= 0 && n <= 50 = "Mal"
+        | otherwise = "Nota inválida"
+
+nota4 :: Int -> Int -> Int -> Int -> String
+nota4 p1 p2 ef si | promedio (fromIntegral p1) (fromIntegral p2) >= 51 || ef >= 51 || si >= 51 = "Aprobado"
+                   | promedio (fromIntegral p1) (fromIntegral p2) == 0 && ef == 0 && si == 0 = "Abandono"
+                   | otherwise = "Reprobado"
+
+mayorde16 :: Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int
+mayorde16 a b c d e f g h i j k l m n o p | mayorde4 a b c d > mayorde4 e f g h && mayorde4 a b c d > mayorde4 i j k l && mayorde4 a b c d > mayorde4 m n o p = mayorde4 a b c d
+                                  | mayorde4 e f g h > mayorde4 a b c d && mayorde4 e f g h > mayorde4 i j k l && mayorde4 e f g h > mayorde4 m n o p = mayorde4 e f g h
+                                  | mayorde4 i j k l > mayorde4 a b c d && mayorde4 i j k l > mayorde4 e f g h && mayorde4 i j k l > mayorde4 m n o p = mayorde4 i j k l
+                                  | otherwise = mayorde4 m n o p
+
+quebrado :: Int -> Int -> Bool
+quebrado num den | prom > 1 = True
+                  | otherwise = False
+                  where prom = div num den
+
+fecha2 :: (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int)
+fecha2 (d1, m1, a1) (d2, m2, a2) | a1 > a2 = (d1, m1, a1)
+                                  | a2 > a1 = (d2, m2, a2)
+                                  | m1 > m2 = (d1, m1, a1)
+                                  | m2 > m1 = (d2, m2, a2)
+                                  | d1 > d2 = (d1, m1, a1)
+                                  | otherwise = (d2, m2, a2)
+                          
+aniosTranscurridos :: (Int, Int, Int) -> (Int, Int, Int) -> Int
+aniosTranscurridos (d1, m1, a1) (d2, m2, a2) | m1 > m2 || (m1 == m2 && d1 > d2) = a2 - a1 - 1
+                                               | otherwise = a2 - a1
+
+mesesTranscurridos :: (Int, Int, Int) -> (Int, Int, Int) -> Int
+mesesTranscurridos (d1, m1, a1) (d2, m2, a2) | d1 > d2 = (a2 - a1) * 12 + (m2 - m1) - 1
+                                               | otherwise = (a2 - a1) * 12 + (m2 - m1)
+
+diasTranscurridos :: (Int, Int, Int) -> (Int, Int, Int) -> Int
+diasTranscurridos (d1, m1, a1) (d2, m2, a2) | m1 > m2 || (m1 == m2 && d1 > d2) = (a2 - a1 - 1) * 365 + (m2 - m1 + 12) * 30 + (d2 - d1)
+                                               | otherwise = (a2 - a1) * 365 + (m2 - m1) * 30 + (d2 - d1)                                               
+
+diasmesesyanios :: (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int)
+diasmesesyanios (d1, m1, a1) (d2, m2, a2) = (diasTranscurridos (d1, m1, a1) (d2, m2, a2), mesesTranscurridos (d1, m1, a1) (d2, m2, a2), aniosTranscurridos (d1, m1, a1) (d2, m2, a2))
+
+instante :: (Int, Int, Int, Int, Int, Int) -> (Int, Int, Int, Int, Int, Int)
+instante (d, m, a, h, min, s) | s < 59 = (d, m, a, h, min, s + 1)
+                              | min < 59 = (d, m, a, h, min + 1, 0)
+                              | h < 23 = (d, m, a, h + 1, 0, 0)
+                              | d < diasEnMes m a = (d + 1, m, a, 0, 0, 0)
+                              | m < 12 = (1, m + 1, a, 0, 0, 0)
+                              | otherwise = (1, 1, a + 1, 0, 0, 0)
+                              where diasEnMes mes anio | mes == 2 && esBisiesto anio = 29
+                                                  | mes == 2 = 28
+                                                  | mes `elem` [1, 3, 5, 7, 8, 10, 12] = 31
+                                                  | otherwise = 30
+                                    esBisiesto anio | (anio `mod` 4 == 0 && anio `mod` 100 /= 0) || (anio `mod` 400 == 0) = True
+                                                    | otherwise = False     
