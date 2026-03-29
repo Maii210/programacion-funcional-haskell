@@ -122,3 +122,88 @@ instante (d, m, a, h, min, s) | s < 59 = (d, m, a, h, min, s + 1)
                                                   | otherwise = 30
                                     esBisiesto anio | (anio `mod` 4 == 0 && anio `mod` 100 /= 0) || (anio `mod` 400 == 0) = True
                                                     | otherwise = False     
+
+--Ejercicio 4 - Usando case
+vocal :: Char -> Char
+vocal x = case x of 'a' -> 'e'
+                    'e' -> 'i'
+                    'i' -> 'o'
+                    'o' -> 'u'
+                    'u' -> 'a'
+                    _   -> error "No es una vocal"
+
+digito :: Int -> String
+digito x = case x of 0 -> "Cero"
+                     1 -> "Uno"
+                     2 -> "Dos"
+                     3 -> "Tres"
+                     4 -> "Cuatro"
+                     5 -> "Cinco"
+                     6 -> "Seis"
+                     7 -> "Siete"
+                     8 -> "Ocho"
+                     9 -> "Nueve"
+                     _ -> error "No es un dígito"
+             
+
+andOp :: Int -> Int -> Bool
+andOp x y = case (x, y) of (0, 0) -> False
+                           (0, 1) -> False
+                           (1, 0) -> False
+                           _ -> True
+
+orOp :: Int -> Int -> Bool
+orOp x y = case (x, y) of (0, 0) -> False
+                          (0, 1) -> True
+                          (1, 0) -> True
+                          _ -> True
+
+xorOp :: Int -> Int -> Bool
+xorOp x y = case (x, y) of (0, 0) -> False
+                           (0, 1) -> True
+                           (1, 0) -> True
+                           _ -> False 
+
+andorxor :: Int -> Int -> (Int -> Int -> Bool) -> Bool
+andorxor x y f = f x y 
+
+literalTres :: Int -> String
+literalTres x = case (div x 100, div (mod x 100) 10, mod x 10) of
+  (1, 0, 0) -> "Cien"
+  (1, d, u) -> "Ciento " ++ literalDosDigitos (d * 10 + u)
+  (c, 0, 0) -> digito c ++ "cientos"
+  (c, d, u) -> digito c ++ "cientos " ++ literalDosDigitos (d * 10 + u)
+  _ -> error "No es un número de tres dígitos"
+
+literalDosDigitos :: Int -> String
+literalDosDigitos x = case (div x 10, mod x 10) of
+  (1, 0) -> "Diez"
+  (1, u) -> "Diez y " ++ digito u
+  (2, 0) -> "Veinte"
+  (2, u) -> "Veinte y " ++ digito u
+  (3, 0) -> "Treinta"
+  (3, u) -> "Treinta y " ++ digito u
+  (4, 0) -> "Cuarenta"
+  (4, u) -> "Cuarenta y " ++ digito u
+  (5, 0) -> "Cincuenta"
+  (5, u) -> "Cincuenta y " ++ digito u
+  (6, 0) -> "Sesenta"
+  (6, u) -> "Sesenta y " ++ digito u
+  (7, 0) -> "Setenta"
+  (7, u) -> "Setenta y " ++ digito u
+  (8, 0) -> "Ochenta"
+  (8, u) -> "Ochenta y " ++ digito u
+  (9, 0) -> "Noventa"
+  (9, u) -> "Noventa y " ++ digito u
+  (0, u) -> if u == 0 then "" else digito u
+  _ -> error "No es un número de dos dígitos"
+
+numeroMenor :: Int -> Int -> Int -> Int -> Int -> Int -> Int
+numeroMenor a b c d e f = case (a, b, c, d, e, f) of
+  (x, y, z, w, v, u) | x <= y && x <= z && x <= w && x <= v && x <= u -> x
+                     | y <= x && y <= z && y <= w && y <= v && y <= u -> y
+                     | z <= x && z <= y && z <= w && z <= v && z <= u -> z
+                     | w <= x && w <= y && w <= z && w <= v && w <= u -> w
+                     | v <= x && v <= y && v <= z && v <= w && v <= u -> v
+                     | otherwise -> f
+
