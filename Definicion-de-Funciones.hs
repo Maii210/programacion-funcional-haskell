@@ -207,3 +207,97 @@ numeroMenor a b c d e f = case (a, b, c, d, e, f) of
                      | v <= x && v <= y && v <= z && v <= w && v <= u -> v
                      | otherwise -> f
 
+sumatoria :: Int -> Int -> Int -> String
+sumatoria a b c = case (a + b + c) of
+                    suma | suma < 10 -> "Sumatoria menor"
+                         | suma < 20 -> "Sumatoria mayor"
+                         | otherwise -> "Vacio"
+
+notas5 :: Int -> Int -> Int -> String
+notas5 n1 n2 n3 = 
+  let prom = promedio (fromIntegral n1) (fromIntegral n2) + fromIntegral n3 / 3
+  in case prom of
+       p | p >= 90 && p <= 100 -> "Excelente"
+         | p >= 70 && p < 90 -> "Bien"
+         | p >= 51 && p < 70 -> "Regular"
+         | p >= 0 && p < 51 -> "Mal"
+         | otherwise -> "Nota inválida" 
+
+--Ejercicio 5 - Definiciones locales
+menorDe6 :: Int -> Int -> Int -> Int -> Int -> Int -> Int
+menorDe6 a b c d e f = if menorDe3 a b c < menorDe3 d e f then menorDe3 a b c else menorDe3 d e f where menorDe3 x y z = if x < y && x < z then x else if y < z then y else z
+
+sumatoria2 :: Int -> Int -> Int -> String
+sumatoria2 a b c = if suma < 10 then "Sumatoria menor" else if suma < 20 then "Sumatoria mayor" else "Vacio" where suma = a + b + c
+
+notas6 :: Int -> Int -> Int -> String
+notas6 a b c = if promedio >= 90 && promedio <= 100 then "Excelente" 
+                      else if promedio >= 70 && promedio < 90 then "Bien" 
+                          else if promedio >= 51 && promedio < 70 then "Regular" 
+                              else "Mal" where promedio = ((fromIntegral a) + (fromIntegral b) + (fromIntegral c)) / 3
+
+--Ejercicio 6 - Reconocimiento de patrones
+fechaDia :: (Int, Int, Int) -> Int
+fechaDia (d, _, _) = d
+
+fechaMes :: (Int, Int, Int) -> Int
+fechaMes (_, m, _) = m
+
+fechaAño :: (Int, Int, Int) -> Int
+fechaAño (_, _, a) = a
+
+quebradoMayor :: (Int, Int) -> (Int, Int) -> (Int, Int)
+quebradoMayor (num1, den1) (num2, den2) | num1 * den2 > num2 * den1 = (num1, den1)
+                                           | otherwise = (num2, den2)
+
+quebradoReducido :: (Int, Int) -> (Int, Int)
+quebradoReducido (num, den) = let divisor = gcd num den in (num `div` divisor, den `div` divisor)
+
+quebradoSigno :: (Int, Int) -> Char
+quebradoSigno (num, den) | num * den > 0 = '+'
+                          | num * den < 0 = '-'
+                          | otherwise = '0'
+
+fechaMenor :: (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int)
+fechaMenor fe1@(d1, m1, a1) fe2@(d2, m2, a2) fe3@(d3, m3, a3) = 
+  let fechas = [fe1, fe2, fe3]
+  in foldl (\f1 f2 -> if fechaAnterior f1 f2 then f1 else f2) (head fechas) (tail fechas)
+  where
+    fechaAnterior (d1, m1, a1) (d2, m2, a2) = 
+      if a1 < a2 then True
+      else if a1 > a2 then False
+      else if m1 < m2 then True
+      else if m1 > m2 then False
+      else d1 < d2
+
+horaMayor :: (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int)
+horaMayor ho1@(h1, min1, s1) ho22@(h2, min2, s2) | h1 > h2 = ho1
+                             | h2 > h1 = ho2
+                             | min1 > min2 = ho1
+                             | min2 > min1 = ho2
+                             | s1 > s2 = ho1
+                             | otherwise = ho2
+
+instanteMayor :: (Int, Int, Int, Int, Int, Int) -> (Int, Int, Int, Int, Int, Int) -> (Int, Int, Int, Int, Int, Int)
+instanteMayor i1@(d1, m1, a1, h1, min1, s1) i2@(d2, m2, a2, h2, min2, s2) | a1 > a2 = i1
+                             | a2 > a1 = i2
+                             | m1 > m2 = i1
+                             | m2 > m1 = i2
+                             | d1 > d2 = i1
+                             | d2 > d1 = i2
+                             | h1 > h2 = i1
+                             | h2 > h1 = i2
+                             | min1 > min2 = i1
+                             | min2 > min1 = i2
+                             | s1 > s2 = i1
+                             | otherwise = i2
+
+siguiente :: Int -> Int
+siguiente n = n + 1
+
+simplificarQuebrado :: ((Int, Int), (Int, Int)) -> ((Int, Int), (Int, Int))
+simplificarQuebrado ((a, b), (c, d)) = let num = a * d
+                                            den = b * c
+                                            divisor = gcd num den
+                                        in ((num `div` divisor, den `div` divisor), (1, 1))
+                              
