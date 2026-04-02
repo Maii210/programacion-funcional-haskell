@@ -243,8 +243,8 @@ fechaDia (d, _, _) = d
 fechaMes :: (Int, Int, Int) -> Int
 fechaMes (_, m, _) = m
 
-fechaAño :: (Int, Int, Int) -> Int
-fechaAño (_, _, a) = a
+--fechaAño :: (Int, Int, Int) -> Int
+--fechaAño (_, _, a) = a
 
 quebradoMayor :: (Int, Int) -> (Int, Int) -> (Int, Int)
 quebradoMayor (num1, den1) (num2, den2) | num1 * den2 > num2 * den1 = (num1, den1)
@@ -271,7 +271,7 @@ fechaMenor fe1@(d1, m1, a1) fe2@(d2, m2, a2) fe3@(d3, m3, a3) =
       else d1 < d2
 
 horaMayor :: (Int, Int, Int) -> (Int, Int, Int) -> (Int, Int, Int)
-horaMayor ho1@(h1, min1, s1) ho22@(h2, min2, s2) | h1 > h2 = ho1
+horaMayor ho1@(h1, min1, s1) ho2@(h2, min2, s2) | h1 > h2 = ho1
                              | h2 > h1 = ho2
                              | min1 > min2 = ho1
                              | min2 > min1 = ho2
@@ -295,9 +295,27 @@ instanteMayor i1@(d1, m1, a1, h1, min1, s1) i2@(d2, m2, a2, h2, min2, s2) | a1 >
 siguiente :: Int -> Int
 siguiente n = n + 1
 
-simplificarQuebrado :: ((Int, Int), (Int, Int)) -> ((Int, Int), (Int, Int))
-simplificarQuebrado ((a, b), (c, d)) = let num = a * d
-                                            den = b * c
-                                            divisor = gcd num den
-                                        in ((num `div` divisor, den `div` divisor), (1, 1))
-                              
+--simplificarQuebrado :: ((Int, Int), (Int, Int)) -> ((Int, Int), (Int, Int))
+--simplificarQuebrado ((a, b), (c, d)) = let num = a * d
+--                                          den = b * c
+--                                            divisor = gcd num den
+--                                      in ((num `div` divisor, den `div` divisor), (1, 1))
+
+--Ejercicio 7 - Calculo lambda
+lamArea :: Int -> Int
+lamArea = (\lado -> lado * lado)
+
+lamAreaRec :: Int -> Int -> Int
+lamAreaRec = (\base -> \altura -> base * altura)
+lamPerimetro :: Int -> Int -> Int
+lamPerimetro = (\base -> \altura -> 2 * (base + altura))
+
+lamMayor :: Int -> Int -> Bool
+lamMayor = (\a -> \b -> if a > b then True else False)    
+
+lamMulti2 :: Int -> Bool
+lamMulti2 = (\a -> if a mod 2 == 0 then True else False)
+
+lamMulti3 :: Int -> Bool
+lamMulti3 = (\a -> if a mod 2 == 0 && mod 3 == 0 then True else False)
+
