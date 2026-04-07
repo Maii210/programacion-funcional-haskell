@@ -4,3 +4,6 @@ tercero xs = head (tail (tail xs))
 
 segundo :: [a] -> a
 segundo xs = head (tail xs)
+
+listaFuncion xss a = (head (head xss)) a 
+
