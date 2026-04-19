@@ -31,6 +31,7 @@ f10 x y z w= x (y (z w))
 f11 :: (tx -> ty -> tz -> tw) -> tx -> ty -> tz -> tw
 f11 x y z w= ((x y) z) w
 
+f12 :: (a -> b -> c) -> a -> (d -> b) -> d -> c
 f12 x y z w= ((x y) (z w))
 
 f13 :: Int -> Int -> tz -> Int
@@ -49,5 +50,39 @@ f16 x y z = x (y z)(y z)
 c :: (a -> b -> c) -> (a, b) -> c 
 c f (x, y) = f x y
 
+u :: ((a, b) -> c) -> a -> b -> c 
 u f x y = f(x, y)
 
+f17 :: tx -> Int -> (Int -> Int) -> Int
+f17 x y z = s + y
+				where s = z y
+
+f18 :: (Int -> Int -> Int) -> Int -> Int -> Int
+f18 x y z = r1 + r2
+  where
+    r1 = x 5 y
+    r2 = x y z
+		
+f19 :: ((a, b) -> c) -> a -> b -> c
+f19 f = g
+	where g x y = f (x, y)
+
+f20 :: (a -> b -> c) -> (a, b) -> c
+f20 f = g
+      where g (x,y) = f x y
+  
+f21 :: ((a, b, c) -> d) -> a -> b -> c -> d
+f21 f = g
+      where g x y z = f(x, y, z)
+
+f22 :: Bool -> Bool -> (Bool -> Bool) -> Bool -> a -> Bool
+f22 e x y z w = if x && (y x) then z else w z
+          where w a |a = e
+                    |otherwise = z
+
+curry1 :: ((a, b) -> c) -> a -> b -> c
+curry1 f x y = f(x,y)
+
+curry2 :: ((a, b) -> c) -> a -> b -> c
+curry2 f = g
+       where g x y = f(x,y)
