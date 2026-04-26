@@ -7,3 +7,9 @@ segundo xs = head (tail xs)
 
 listaFuncion xss a = (head (head xss)) a 
 
+tercerElemento xss = quinto (tercero xss) 
+                where quinto xs = head (tail (tail (tail (tail xs))))
+
+tercerElemento1 xss = segundo (cuarta (tercero xss))
+                where cuarta xs = head (tail (tail (tail xs) ))
+

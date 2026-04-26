@@ -85,4 +85,100 @@ curry1 f x y = f(x,y)
 
 curry2 :: ((a, b) -> c) -> a -> b -> c
 curry2 f = g
-       where g x y = f(x,y)
+       where g x y = f (x,y)
+
+uncurry1 :: (a -> b -> c) -> (a, b) -> c
+uncurry1 f (x,y) = f x y
+
+uncurry2 :: (a -> b -> c) -> (a, b) -> c
+uncurry2 f = g
+        where g (x,y)= f x y
+
+suma1 :: Int -> Int -> Int
+suma1 x y = x + y
+
+suma2 :: (Int, Int) -> Int
+suma2 (x,y) = x + y
+
+--curry1 suma1 :: error
+
+--curry1 suma2 :: Int -> Int -> Int
+
+--uncurry1 suma1 :: (Int, Int) -> Int
+
+--curry1 suma2 3 5 :: Int
+
+--curry1 suma2 7 :: Int -> Int
+
+--curry1 uncurry1 suma1 2 3 :: error
+
+--uncurry1 (curry1 suma2 (2,3)) :: error
+
+f23 :: Int -> Int -> Int -> Bool -> Int -> Bool -> Int
+f23 a b c d e f = if f then e else a + b
+
+f24 :: (Int -> Int) -> Int -> Bool -> Int -> Bool -> Int
+f24 f a b c d = if b > d then a else f c
+
+f25 :: (Int -> Int) -> ( Int -> Bool) -> Int -> Bool -> Int
+f25 f g a b = if b then f a else a + 2
+
+f26 :: (Int -> Int -> Int) -> Bool -> Int -> Bool -> Int
+f26 f a b c = if a then f b b else b
+{-
+f27 :: ((Int -> Int) -> Int -> Bool) -> Int -> Bool -> Int
+f27 f a b = if b then f a else a
+        where f 
+
+f28 :: (Int -> Int -> Int) -> Bool -> (Int -> Bool) -> Int
+
+
+f29 :: (Int, Int, Int) -> Bool -> Int -> Bool -> Int
+
+
+f30 :: (Int -> Int -> Int) -> (Bool -> Int -> Bool -> Int)
+
+
+f31 :: (Int -> Int -> Int) -> (Bool -> Int -> (Bool -> Int))
+
+
+f32 :: ((Int -> Int) -> Int) -> (Bool -> (Int -> (Bool -> Int)))
+
+
+f33 :: (Int -> (Int -> Int)) -> (Bool -> Int -> Bool -> Int)
+
+
+f34 :: Int -> Int -> a -> Int -> Bool -> Bool -> Bool -> Int -> Bool -> Int -> Int -> Int
+
+
+-}
+{-
+f34 x = r
+  where r
+f34 x s = y
+  where y
+f34 x s t = y
+  where y
+f34 x s t u = y
+  where y
+f34 x s t u v = y
+  where y
+
+f35 :: ((Int -> Int)-> (Int -> Int -> Bool) -> Bool -> Bool) -> Int -> Bool -> (Int -> Int -> Int )
+f35 x = r
+  where r
+f35 x s = y
+  where y
+f35 x s t = y
+  where y
+f35 x s t u = y
+  where y
+f35 x s t u v = y
+  where y
+(\x -> \y -> \z -> if x then y 2 else z+20)
+(\x -> \y -> \z -> if x then y (*) else (&&))
+(\x -> \y -> x y)(\a -> 2*a)
+(\x -> \y -> x y)(\a -> \b -> 2*a+b)
+(\x -> \y -> \z -> x y z) (*)
+(\x -> \y -> \z -> (x y) + z ) (\a -> a&&True)
+-}
